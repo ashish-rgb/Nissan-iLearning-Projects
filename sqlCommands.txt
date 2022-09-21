@@ -1,4 +1,4 @@
-ddl
+ddl- Data Definition Language
 
 --CHECK
 
