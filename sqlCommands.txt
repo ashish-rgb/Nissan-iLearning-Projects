@@ -198,3 +198,131 @@ EXEC sp_rename 'Student','Participant'
 
 SELECT * FROM Participant
 
+
+
+--DML ASSIGNMENT--
+
+
+--1--
+SELECT EmpNo AS id,
+	   FirstName AS LastName,
+	   DeptNo AS deptid
+INTO Emp2
+FROM Employee
+
+--2,3--
+INSERT INTO Department
+	VALUES (1,'IT',6,'Trivandrum')
+
+INSERT INTO Department
+	VALUES (10,'Accounts',2,'Trivandrum'),(5,'QA',5,'Trivandrum')
+
+INSERT INTO Employee 
+	VALUES (10,100,'Ashish','Ranjan','A1',1,10000.30,80,'2022-08-02','Software',200.22,200.22)
+INSERT INTO Employee 
+	VALUES (11,100,'Avesh','Ranjan','A1',1,10000.30,80,'2022-08-02','Software',200.22,200.22)
+
+--4--
+INSERT INTO Employee 
+	VALUES(22,101,'Ravi','Kumar','A1',10,10000.30,80,'2022-08-02','Software',200.22,200.22),
+	(12,102,'Akshay','Pawar','A1',5,10000.30,80,'2022-08-02','Software',200.22,200.22)
+
+SELECT * FROM Employee
+SELECT * FROM Department
+SELECT * FROM Emp2
+
+SELECT * FROM Customer
+INSERT INTO Customer 
+	VALUES(11,'Vishnu','Trivandrum'),(12,'Madhu','Trivandrum'),(13,'Chimki','Trivandrum')
+
+SELECT * FROM Orders
+INSERT INTO Orders 
+	VALUES(101,11,'2022-06-16'),(102,12,'2022-08-10'),(103,13,'2022-05-26')
+
+SELECT * FROM OrderItem
+INSERT INTO OrderItem
+	VALUES(101,101,'fridge',1),(102,102,'mobile',3),(103,103,'laptop',2)
+
+SELECT * FROM OrderItem
+INSERT INTO OrderItem
+	VALUES(101,101,'fridge',1),(102,102,'mobile',3),(103,103,'laptop',2)
+
+SELECT * FROM Course
+INSERT INTO Course 
+	VALUES('A11','A101','Java','OOP',500),
+		('A12','A102','HTML','Scripting',400),
+		('A13','A103','JS','Functioning',800)
+
+SELECT * FROM Batch
+INSERT INTO Batch 
+	VALUES('B11','A11','A'),
+		('B12','A12','B'),
+		('B13','A13','C')
+
+SELECT * FROM Participant
+INSERT INTO Participant(StudID,LastName,FirstName,BatchId,Address,City,State,ZipCode,Telephone,Fax,Email,Grade)
+	VALUES('A101','Ranjan','Ashish','B11','Ranchi','Ranchi','JH','834001','7676545676','76h87','sdsf@gmail.com','A'),
+			('A102','Ranjan','Ginni','B12','Ranchi','Ranchi','JH','834001','7654568976','76h86','ginnif@gmail.com','B'),
+			('A103','Ranjan','Suraj','B13','Ranchi','Ranchi','JH','834001','9874567894','76h84','suraj@gmail.com','C')
+
+--5--
+DELETE FROM Customer WHERE CustName = 'Vishnu'
+
+Use DDLASSIGNMENT
+
+--6--
+INSERT INTO Employee(EmpNo,FirstName)
+	VALUES(23,'Sudhir')
+
+--7--
+UPDATE  Customer
+	SET Address='New Delhi'
+	WHERE CustName = 'Madhu'
+
+--8--
+DELETE FROM Employee 
+	WHERE DeptNo = 12 AND Salary>5000
+
+--9--
+UPDATE Employee
+	SET DeptNo=10,FirstName = 'Rishi'
+	WHERE EmpNo = 12
+
+--10--
+UPDATE Participant
+	SET Email = 'NA'
+	WHERE Email = NULL
+	
+
+--11--
+DELETE FROM Participant
+WHERE DATEDIFF(year, Dob, GETDATE()) > 20; 
+
+--12--
+DELETE FROM Participant
+	WHERE Email = NULL OR Telephone = NULL
+
+--13--
+DELETE FROM Participant
+	WHERE Dob LIKE '_____06_05'
+
+--14--
+UPDATE Participant
+	SET FirstName = 'XXX',
+		Dob = GETDATE()
+	WHERE FirstName LIKE '___A%'
+
+--15--
+DELETE FROM Participant
+	WHERE State LIKE '%a'
+
+--16--
+UPDATE Participant
+	SET LastName = 'Jan'
+	WHERE Dob LIKE'_____01___'
+
+--17--
+DELETE FROM Participant
+	WHERE State LIKE 'T%'
+
+
