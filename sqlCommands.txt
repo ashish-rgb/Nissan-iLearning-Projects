@@ -1,0 +1,200 @@
+ddl
+
+--CHECK
+
+CREATE TABLE Trainees(
+TraineeId INT PRIMARY KEY,
+TraineeName VARCHAR(20),
+--Table Level
+	CONSTRAINT chk_TraineeId
+	CHECK(TraineeId>999)
+	)
+
+SELECT * from Trainees
+
+INSERT INTO Trainees VALUES(1001,'Sanjay')
+
+--CHECK --Demo2
+CREATE TABLE EmployeeAddress(
+	EmpId INT PRIMARY KEY,
+	EmpName VARCHAR(20),
+	CountryCode Char(2),
+	CONSTRAINT chk_CountryCode
+	CHECK(CountryCode IN('IN','UK','US','AE'))
+)
+
+SELECT * from EmployeeAddress
+
+--insert records
+INSERT INTO EmployeeAddress 
+VALUES(1004,'Ravi','US'),(1003,'Ashish','IN')
+
+--DEFAULT
+CREATE TABLE Customers(
+	CustId INT PRIMARY KEY,
+	CustName VARCHAR(20),
+	CustEmailId VARCHAR(20) UNIQUE,
+	City VARCHAR(20) DEFAULT 'Trivandrum',
+	CreatedOn DATETIME DEFAULT GETDATE()
+	)
+
+SELECT * FROM Customers
+
+Insert into Customers (CustId,CustName,CustEmailId) 
+values(101,'Akshay','akshay@gmail.com')
+
+
+USE DDLASSIGNMENT
+
+--DDL ASSIGNEMT--
+
+--1 to 6
+--Parent Table ---
+CREATE TABLE Department(
+	Deptno NUMERIC(2) PRIMARY KEY,
+	DeptName VARCHAR(20) UNIQUE,
+	Floor1 NUMERIC(2),
+	Location VARCHAR(20)
+)
+
+
+--Child Table ---
+
+CREATE TABLE Employee(
+EmpNo NUMERIC(2) PRIMARY KEY,
+MANAGERID NUMERIC(3),
+FirstName VARCHAR(20) NOT NULL,
+LastName VARCHAR(20),
+UserID VARCHAR(20),
+DeptNo NUMERIC(2) 
+	CONSTRAINT fk_deptno 
+	FOREIGN KEY (DeptNo) 
+	REFERENCES Department(DeptNo) 
+	ON DELETE CASCADE,
+Salary DECIMAL(8,2),
+Commision NUMERIC(3),
+JoiningDate DATE,
+Designation VARCHAR(25)
+)
+
+SELECT * FROM Employee
+
+--MODIFY THE EXISTING TABLES
+--HRA
+ALTER TABLE Employee ADD HRA DECIMAL(7,2)
+
+--PF
+ALTER TABLE Employee ADD PF DECIMAL(7,2) 
+	CONSTRAINT chk_PF
+	CHECK(PF<=5000 AND PF>=100)
+
+--7 to 11--
+
+CREATE TABLE Customer(
+	Custno NUMERIC(3) PRIMARY KEY,
+	CustName VARCHAR(20) ,
+	Address VARCHAR(40)
+)
+
+CREATE TABLE Orders(
+	OrderNo NUMERIC(3) PRIMARY KEY,
+	Custno NUMERIC(3) 
+		CONSTRAINT fk_Custno 
+		FOREIGN KEY (Custno) 
+		REFERENCES Customer(Custno) 
+		ON DELETE CASCADE,
+	Orderdate DATE
+)
+
+CREATE TABLE OrderItem (
+	ItemID NUMERIC(3) PRIMARY KEY,
+	OrderNo NUMERIC(3) 
+		CONSTRAINT fk_OrderNo 
+		FOREIGN KEY (OrderNo) 
+		REFERENCES Orders(OrderNo) 
+		ON DELETE CASCADE,
+	ItemName VARCHAR(20),
+	Quantity NUMERIC(2)
+)
+
+--MODIFICATION
+--Address
+ALTER TABLE Customer
+	ALTER COLUMN Address VARCHAR(100);
+
+--12 to 17 --
+CREATE TABLE Course(
+	CourseID VARCHAR(5) PRIMARY KEY NOT NULL,
+	StreamID VARCHAR(20),
+	Title VARCHAR(40),
+	Description VARCHAR(200),
+	Fees NUMERIC(3),
+)
+
+CREATE TABLE Courses(
+	CourseID VARCHAR(5) ,
+	StreamID VARCHAR(20),
+	Title VARCHAR(40),
+	Description VARCHAR(200),
+	Fees NUMERIC(3),
+	CONSTRAINT pk_CourseidStreamid
+	PRIMARY KEY (CourseID ,StreamID)
+)
+
+
+--Without Composite
+CREATE TABLE Batch(
+	BatchID VARCHAR(30) PRIMARY KEY,
+	CourseID VARCHAR(5)
+		CONSTRAINT fk_courseId 
+		FOREIGN KEY (CourseID) 
+		REFERENCES Course(CourseID) 
+		ON DELETE CASCADE,
+	BatchName Char(1)
+)
+
+--With Composite
+CREATE TABLE Batches(
+	BatchID VARCHAR(30) PRIMARY KEY,
+	CourseID VARCHAR(5),
+	StreamID VARCHAR(20),
+		CONSTRAINT fk_courseIdstreamId 
+		FOREIGN KEY (CourseID,StreamID) 
+		REFERENCES Courses(CourseID,StreamID) 
+		ON DELETE CASCADE,
+	BatchName Char(1)
+)
+
+CREATE TABLE Student(
+	StudID VARCHAR(20) PRIMARY KEY,
+	LastName VARCHAR(25),
+	MiddleName VARCHAR(30),
+	FirstName VARCHAR(20),
+	Dob DATE DEFAULT GETDATE(),
+	--Instead of GETDATE we can use CURRENTTIMESTAMP()
+	BatchId VARCHAR(30) 
+	CONSTRAINT fk_batchesid 
+	FOREIGN KEY (BatchId) 
+	REFERENCES Batch(BatchId) 
+	ON DELETE CASCADE,
+	Address VARCHAR(50),
+	City VARCHAR(20),
+	State VARCHAR(2),
+	ZipCode VARCHAR(9),
+	Telephone VARCHAR(10),
+	Fax VARCHAR(10),
+	Email VARCHAR(30),
+	Grade CHAR(1),
+		CONSTRAINT chk_Gradee
+		CHECK(Grade IN('A','A+','A-','B','B+','B-','C','C+','C-','D','D+','D-','F+','F-','F'))
+	)
+
+SELECT * FROM Student
+
+ALTER TABLE Student 
+	DROP COLUMN MiddleName
+
+EXEC sp_rename 'Student','Participant'
+
+SELECT * FROM Participant
+
