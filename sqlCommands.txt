@@ -1,4 +1,4 @@
-ddl
+ddl- Data Definition Language
 
 --CHECK
 
@@ -325,4 +325,53 @@ UPDATE Participant
 DELETE FROM Participant
 	WHERE State LIKE 'T%'
 
+
+dql
+
+
+
+--1--
+SELECT FirstName , 
+	   Salary*12*0.3 AS [Annual tax]
+	   FROM Employee
+
+--2--
+SELECT * FROM Employee
+	ORDER BY FirstName ASC
+
+--3--
+SELECT * FROM Employee
+	ORDER BY Salary DESC
+
+--4--
+SELECT * FROM Employee
+	WHERE FirstName LIKE 'A%e%t'
+
+--5--
+SELECT * FROM Employee
+	WHERE JoiningDate > '1998-01-01' 
+	AND Salary > 25000
+
+--6--
+SELECT * FROM Employee
+		WHERE Commision = NULL
+
+--7--
+SELECT CAST(ProPrice AS VARCHAR(40)) 
+		AS [Festive Offers]
+		FROM Product
+		SET ProPrice = 'ABC costs 52.00 after discount.'
+	
+
+--8--
+SELECT * FROM Product
+		WHERE ProPrice > 50 AND ProPrice < 100
+
+
+--9--
+
+
+--10--
+SELECT DISTINCT Designation 
+				FROM Employee
 
